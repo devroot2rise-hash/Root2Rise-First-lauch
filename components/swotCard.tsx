@@ -1,5 +1,5 @@
 "use client";
-
+import Image from "next/image";
 declare global {
   interface Window {
     Tally?: {
@@ -27,20 +27,15 @@ export default function SWOTCard() {
     <div className="swot-card">
       <div className="swot-left">
         <div className="swot-title-wrap">
-          <span className="swot-title">SWOT form</span>
+          <span className="swot-title">Find your direction before you put your next “best” foot forward</span>
         </div>
 
         <div className="swot-desc-wrap">
-          <p className="swot-desc">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit
-          </p>
+        <button className="swot-btn" onClick={openTallyForm}>The Career Compass</button>
         </div>
       </div>
 
-      <div className="swot-right">
-        <div className="swot-icon"></div>
-        <button className="swot-btn" onClick={openTallyForm}>SWOT</button>
-      </div>
+        <Image src="/findYourDirection.png" alt="SWOT Illustration" width={800} height={900} className="swot-img" priority />
     </div>
   );
 }

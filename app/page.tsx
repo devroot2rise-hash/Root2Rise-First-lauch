@@ -14,6 +14,7 @@ import SWOTCard from "@/components/swotCard";
 import Join from "@/components/JoinCard";
 import SendMessage from "@/components/SendMessage";
 import Footer from "@/components/Footer";
+import GuidanceStack from "@/components/GuidanceStack";
 
 // Extend Window interface for Tally
 declare global {
@@ -52,15 +53,15 @@ export default function Home() {
   const cards = [
     {
       front: "/exploreCard2.png",
-      back: "/exploreCardBack.png",
+      back: "/exploreCardBack2.png",
     },
     {
       front: "/prepareCard2.png",
-      back: "/prepareCardBack.png",
+      back: "/prepareCardBack2.png",
     },
     {
       front: "/bloomCard2.png",
-      back: "/bloomCardBack.png",
+      back: "/bloomCardBack2.png",
     },
   ];
   return (
@@ -87,12 +88,13 @@ export default function Home() {
         </header>
       <main style={{ margin: "auto", textAlign: "center" }}>
         {/* Main Text */}
-        <h1 className="headline">Main text</h1>
-        <p className="subheadline">Lorem ipsum dolor sit amet, consectetur adipiscing elit</p>
+        <h1 className="headline">Lorem ipsum dolor sit amet</h1>
         {/* Placeholder for Main Illustration */}
         <div style={{display:"flex", justifyContent:"center",flexDirection:"row",gap:"40px"}}>
-          <div className="whatsappbtn"><Image src="/whatsappLogo.png" alt="whatsapp Logo" width={50} height={50} className="whatsapplogo"/><span>Join Now</span></div>
-          <div className="swotbtn" onClick={openTallyForm} style={{cursor: "pointer"}}><span>SWOT</span></div>
+          <div className="whatsappbtn"><span>Co-Lab Community</span></div>
+          <button onClick={openTallyForm} className="whatsappbtn"><span>The Career Compass</span></button>
+          {/* <div className="whatsappbtn"><Image src="/whatsappLogo.png" alt="whatsapp Logo" width={50} height={50} className="whatsapplogo"/><span>Join Now</span></div> */}
+          {/* <div className="swotbtn" onClick={openTallyForm} style={{cursor: "pointer"}}><span>SWOT</span></div> */}
         </div>
         <div >
           <div style={{margin: "0 auto", display: "flex", alignItems: "center", justifyContent: "center" }}>
@@ -109,9 +111,8 @@ export default function Home() {
     </div>
           </div>
         </div>
-        {/* About Us */}
-        <section id="about" style={{ margin: "40px 0" }}>
-          <AboutUs />
+        <section  style={{ margin: "80px 0" }}>
+          <GuidanceStack />
         </section>
         {/* Vision Board */}
         <section style={{ margin: "40px 0" }}>
