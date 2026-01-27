@@ -146,8 +146,7 @@ import { db } from "@/lib/firebase";
 
 export default function SendMessage() {
   const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
+    fullName: "",
     email: "",
     message: "",
   });
@@ -173,8 +172,7 @@ export default function SendMessage() {
 
     try {
       await addDoc(collection(db, "messages"), {
-        firstName: formData.firstName,
-        lastName: formData.lastName, // stored even if not shown in UI
+        firstName: formData.fullName,
         email: formData.email,
         message: formData.message,
         createdAt: new Date(),
@@ -183,8 +181,7 @@ export default function SendMessage() {
       setSubmitStatus("success");
 
       setFormData({
-        firstName: "",
-        lastName: "",
+        fullName: "",
         email: "",
         message: "",
       });
@@ -208,8 +205,8 @@ export default function SendMessage() {
               <label>Hey, you're.. (First Name)</label>
               <input
                 type="text"
-                name="firstName"
-                value={formData.firstName}
+                name="fullName"
+                value={formData.fullName}
                 onChange={handleChange}
                 placeholder=""
                 required
