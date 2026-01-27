@@ -18,13 +18,16 @@ export default function DirectionalFlipCard({
 }: DirectionalFlipCardProps) {
   const ref = useRef<HTMLDivElement | null>(null);
 
-  // desktop hover state
+  // Interaction source
+  const [interaction, setInteraction] = useState<"mouse" | "touch">("mouse");
+
+  // Hover (desktop only)
   const [isHover, setIsHover] = useState(false);
 
-  // mobile tap toggle state
+  // Tap (mobile only)
   const [isFlipped, setIsFlipped] = useState(false);
 
-  // 1 => left->right, -1 => right->left
+  // Direction
   const [dir, setDir] = useState<1 | -1>(1);
 
   const setDirectionFromClientX = (clientX: number) => {
@@ -34,45 +37,60 @@ export default function DirectionalFlipCard({
     setDir(x < rect.width / 2 ? 1 : -1);
   };
 
-  // Desktop: move mouse decides direction
+  /* ---------------- DESKTOP ---------------- */
+
+  const handleMouseEnter = () => {
+    if (interaction !== "mouse") return;
+    setIsHover(true);
+  };
+
+  const handleMouseLeave = () => {
+    if (interaction !== "mouse") return;
+    setIsHover(false);
+  };
+
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (interaction !== "mouse") return;
     setDirectionFromClientX(e.clientX);
   };
 
-  // Mobile: tap decides direction + toggles flip
-  const handleTap = (e: React.PointerEvent<HTMLDivElement>) => {
-    // Only treat touch/pen as tap (not mouse click)
-    if (e.pointerType === "mouse") return;
+  /* ---------------- MOBILE ---------------- */
 
-    setDirectionFromClientX(e.clientX);
+  const handlePointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
+    if (e.pointerType === "mouse") {
+      setInteraction("mouse");
+      return;
+    }
+
+    // Touch interaction
+    setInteraction("touch");
+
+    // Set direction only when flipping to back
+    if (!isFlipped) {
+      setDirectionFromClientX(e.clientX);
+    }
+
     setIsFlipped((p) => !p);
   };
 
-  // final state (hover OR tapped)
-  const shouldFlip = isHover || isFlipped;
+  /* ---------------- FINAL FLIP LOGIC ---------------- */
+
+  const shouldFlip =
+    interaction === "mouse" ? isHover : isFlipped;
 
   return (
     <div
       ref={ref}
-      tabIndex={0}
-      aria-label="3D Flip Card"
       className={`relative ${className}`}
-      onPointerDown={handleTap}
-      onMouseEnter={() => setIsHover(true)}
-      onMouseLeave={() => setIsHover(false)}
+      tabIndex={0}
+      onPointerDown={handlePointerDown}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
       onMouseMove={handleMouseMove}
-      onFocus={() => setIsHover(true)}
-      onBlur={() => setIsHover(false)}
       style={{
-        height: "100%",
         width: "100%",
-        background: "transparent",
-        borderRadius: radius,
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
+        height: "100%",
         perspective: "800px",
-        overflow: "visible",
         outline: "none",
         WebkitTapHighlightColor: "transparent",
         touchAction: "manipulation",
@@ -82,13 +100,12 @@ export default function DirectionalFlipCard({
         style={{
           width: "100%",
           height: "100%",
-          borderRadius: radius,
           position: "relative",
+          borderRadius: radius,
           transformStyle: "preserve-3d",
-          willChange: "transform",
         }}
         animate={{
-          rotateY: shouldFlip ? (dir === 1 ? 180 : -180) : 0,
+          rotateY: shouldFlip ? dir * 180 : 0,
         }}
         transition={{
           duration: 0.8,
@@ -98,61 +115,47 @@ export default function DirectionalFlipCard({
         {/* FRONT */}
         <div
           style={{
-            width: "100%",
-            height: "100%",
             position: "absolute",
             inset: 0,
             backfaceVisibility: "hidden",
             borderRadius: radius,
             overflow: "hidden",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
           }}
         >
           <img
             src={frontImage}
             alt="Front"
+            draggable={false}
             style={{
               width: "100%",
               height: "100%",
               objectFit: "cover",
               pointerEvents: "none",
-              userSelect: "none",
-              display: "block",
             }}
-            draggable={false}
           />
         </div>
 
         {/* BACK */}
         <div
           style={{
-            width: "100%",
-            height: "100%",
             position: "absolute",
             inset: 0,
             backfaceVisibility: "hidden",
+            transform: "rotateY(180deg)",
             borderRadius: radius,
             overflow: "hidden",
-            transform: "rotateY(180deg)",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
           }}
         >
           <img
             src={backImage}
             alt="Back"
+            draggable={false}
             style={{
               width: "100%",
               height: "100%",
               objectFit: "cover",
               pointerEvents: "none",
-              userSelect: "none",
-              display: "block",
             }}
-            draggable={false}
           />
         </div>
       </motion.div>
