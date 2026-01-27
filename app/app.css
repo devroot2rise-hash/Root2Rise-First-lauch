@@ -842,22 +842,52 @@
 }
 
 .footer-social-icon {
-  width: 26px;
-  height: 26px;
+  width: 44px;
+  height: 44px;
   border-radius: 50%;
-  border: 1px solid rgba(255, 255, 255, 0.18);
-  display: flex;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  display: inline-flex;
   align-items: center;
   justify-content: center;
   color: #fff;
   text-decoration: none;
-  font-size: 12px;
-  opacity: 0.9;
+  font-size: 14px;
+  background: rgba(255, 255, 255, 0.03);
+  transition: transform 0.12s ease, background 0.12s ease, box-shadow 0.12s ease;
+}
+
+.footer-social-icon svg {
+  width: 18px;
+  height: 18px;
+  display: block;
+  color: inherit;
+  fill: currentColor;
 }
 
 .footer-social-icon:hover {
-  opacity: 1;
-  background: rgba(255, 255, 255, 0.08);
+  transform: translateY(-3px);
+  background: rgba(255, 255, 255, 0.12);
+  box-shadow: 0 8px 18px rgba(0,0,0,0.28);
+}
+
+/* subtle brand tint for WhatsApp */
+.footer-social-whatsapp,
+.footer-social-instagram {
+  /* match LinkedIn / default social icon appearance */
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+.footer-social-whatsapp:hover,
+.footer-social-instagram:hover {
+  background: rgba(255, 255, 255, 0.12);
+  transform: translateY(-3px);
+}
+
+/* ensure icons render white on the light circular background */
+.footer-social-whatsapp svg,
+.footer-social-instagram svg {
+  color: #fff;
+  fill: currentColor;
 }
 
 /* bottom strip */
