@@ -1,41 +1,53 @@
 "use client";
 import Image from "next/image";
+
 declare global {
   interface Window {
     Tally?: {
-      openPopup: (formId: string, options?: {
-        layout?: string;
-        width?: number;
-        autoClose?: number;
-      }) => void;
+      openPopup: (
+        formId: string,
+        options?: {
+          layout?: string;
+          width?: number;
+          autoClose?: number;
+        }
+      ) => void;
     };
   }
 }
 
 export default function SWOTCard() {
   const openTallyForm = () => {
-    if (window.Tally) {
-      window.Tally.openPopup('zx7GDE', {
-        layout: 'modal',
-        width: 700,
-        autoClose: 3000
-      });
-    }
+    window.Tally?.openPopup("zx7GDE", {
+      layout: "modal",
+      width: 700,
+      autoClose: 3000,
+    });
   };
 
   return (
-    <div className="swot-card">
+    <section className="swot-card">
+      {/* LEFT CONTENT */}
       <div className="swot-left">
-        <div className="swot-title-wrap">
-          <span className="swot-title">Find your direction before you put your next “best” foot forward</span>
-        </div>
+        <h2 className="swot-title">
+          Find your direction before you put your next “best” foot forward
+        </h2>
 
-        <div className="swot-desc-wrap">
-        <button className="swot-btn" onClick={openTallyForm}>The Career Compass</button>
-        </div>
+        <button className="swot-btn" onClick={openTallyForm}>
+          The Career Compass
+        </button>
       </div>
 
-        <Image src="/findYourDirection.png" alt="SWOT Illustration" width={800} height={900} className="swot-img" priority />
-    </div>
+      {/* RIGHT IMAGE */}
+      <div className="swot-image-wrap">
+        <Image
+          src="/findYourDirection.png"
+          alt="Find your direction"
+          fill
+          priority
+          className="swot-img"
+        />
+      </div>
+    </section>
   );
 }

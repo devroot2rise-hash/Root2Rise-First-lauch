@@ -89,7 +89,7 @@ export default function Home() {
         </header>
       <main style={{ margin: "auto", textAlign: "center" }}>
         {/* Main Text */}
-        <h1 className="headline">Lorem ipsum dolor sit amet</h1>
+        <h1 className="headline">Welcome to your clarity space..</h1>
         {/* Placeholder for Main Illustration */}
         <div style={{display:"flex", justifyContent:"center",flexDirection:"row",gap:"40px"}}>
           <div className="whatsappbtn"><span>Co-Lab Community</span></div>
@@ -129,7 +129,7 @@ export default function Home() {
         </section>
         {/* Vision Board */}
         <section style={{ margin: "40px 0" }}>
-          <h3 style={{fontWeight:"600",fontSize:"45px",marginBottom:"60px"}}>Vision Board</h3>
+          <h3 style={{fontWeight:"600",fontSize:"45px",marginBottom:"60px"}}>Let's build you a career vision board!</h3>
           <div style={{ display: "flex", overflowX: "auto", padding: "16px 0", marginBottom: 200}}>
       <CurvedSlider
       images={[
@@ -151,6 +151,9 @@ export default function Home() {
           {/* Placeholder for text area */}
         </section>
         {/* Cards Section */}
+          <section>
+            <VbDownload/>
+          </section>
         <section id="" style={{ margin: "40px 0", display: "flex", justifyContent: "center", gap: "40px", flexWrap: "wrap" }}>
           {/* {["/exploreCard.png", "/prepareCard.png", "/bloomCard.png"].map((title, idx) => (
             <div key={title} style={{ background: "#e0e0e0", borderRadius: 12, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center" }}>
@@ -176,9 +179,6 @@ export default function Home() {
   />
   </div>))}
 
-        </section>
-        <section>
-          <VbDownload/>
         </section>
         <section style={{ margin: "40px 0",display:"flex",justifyContent:"center",flexDirection:"column",alignItems:"center",gap:"80px" }}>
           <SWOTCard/>

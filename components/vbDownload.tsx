@@ -17,9 +17,8 @@ export default function DownloadCard() {
                 height={700}
                 className="download-img"
               />
-
               <h3 className="download-caption">
-                Organize Dreams <span>into Vision Board</span>
+                Paint Your Career Canvas
               </h3>
             </div>
           </div>
@@ -27,10 +26,9 @@ export default function DownloadCard() {
 
         {/* RIGHT CONTENT */}
         <div className="download-right">
-          <h2 className="download-title">Main text</h2>
+          <h2 className="download-title">Organise your dreams into a vision board</h2>
           <p className="download-desc">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor
+           That speaks your journey
           </p>
           <button
   className="download-btn"

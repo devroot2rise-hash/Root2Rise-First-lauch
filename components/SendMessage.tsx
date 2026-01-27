@@ -202,7 +202,7 @@ export default function SendMessage() {
           {/* Row 1 */}
           <div className="contact-row-2">
             <div className="contact-field">
-              <label>Full Name</label>
+              <label>Hey, you're.. (First Name)</label>
               <input
                 type="text"
                 name="fullName"
@@ -214,7 +214,7 @@ export default function SendMessage() {
             </div>
 
             <div className="contact-field">
-              <label>Email</label>
+              <label>Your Professional Address (Email)</label>
               <input
                 type="email"
                 name="email"
@@ -229,7 +229,7 @@ export default function SendMessage() {
           {/* Row 2 */}
           <div className="contact-row-1">
             <div className="contact-field">
-              <label>Message</label>
+              <label>Your thoughts in your words</label>
               <textarea
                 name="message"
                 value={formData.message}
