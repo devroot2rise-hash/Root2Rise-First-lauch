@@ -399,7 +399,6 @@
 .download-wrap {
   width: 100%;
   padding: 70px 18px;
-  background: #fbf7f0;
   display: flex;
   justify-content: center;
 }
@@ -458,7 +457,7 @@
 
 .download-title {
   font-size: 42px;
-  font-weight: 900;
+  font-weight: 700;
   color: #111;
   margin: 0;
 }

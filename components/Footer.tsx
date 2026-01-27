@@ -7,8 +7,7 @@ export default function Footer() {
         <span className="footer-pill">Get in touch</span>
 
         <p className="footer-desc">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-          eiusmod tempor incididunt ut labore et dolore magna aliqua
+          We've been there. We won't let you feel the same.
         </p>
 
         <div className="footer-contact">

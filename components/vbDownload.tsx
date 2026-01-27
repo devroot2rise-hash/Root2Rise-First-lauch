@@ -26,7 +26,7 @@ export default function DownloadCard() {
         <div className="download-right">
           <h2 className="download-title">Organise your dreams into a vision board</h2>
           <p className="download-desc">
-           That speaks your journey 
+           That speaks your journey
           </p>
           <button
   className="download-btn"
