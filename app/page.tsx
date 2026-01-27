@@ -89,7 +89,7 @@ export default function Home() {
         </header>
       <main style={{ margin: "auto", textAlign: "center" }}>
         {/* Main Text */}
-        <h1 className="headline">Lorem ipsum dolor sit amet</h1>
+        <h1 className="headline">Welcome to your clarity space..</h1>
         {/* Placeholder for Main Illustration */}
         <div style={{display:"flex", justifyContent:"center",flexDirection:"row",gap:"40px"}}>
           <div className="whatsappbtn"><span>Co-Lab Community</span></div>

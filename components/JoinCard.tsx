@@ -8,8 +8,8 @@ export default function JoinCard() {
         <Image
           src="/collegeStudents2.png"
           alt="Join Illustration"
-          width={1800}
-          height={500}
+          fill
+          priority
           className="join-img"
         />
       </div>

@@ -9,13 +9,12 @@ export default function DownloadCard() {
           <div className="download-frame">
             <div className="download-inner">
               <Image
-                src="/vbDownload.png"
+                src="/vbdownload.png"
                 alt="Illustration"
                 width={700}
                 height={700}
                 className="download-img"
               />
-
               <h3 className="download-caption">
                 Organize Dreams <span>into Vision Board</span>
               </h3>
@@ -25,10 +24,9 @@ export default function DownloadCard() {
 
         {/* RIGHT CONTENT */}
         <div className="download-right">
-          <h2 className="download-title">Main text</h2>
+          <h2 className="download-title">Organise your dreams into a vision board</h2>
           <p className="download-desc">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor
+           That speaks your journey 
           </p>
           <button
   className="download-btn"
