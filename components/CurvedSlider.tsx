@@ -1,5 +1,5 @@
 "use client";
-
+import Image from "next/image";
 import { useEffect, useMemo, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 
@@ -108,18 +108,7 @@ export default function CurvedSlider({
         aria-label="Previous slide"
         className="absolute left-[5%] top-1/2 -translate-y-1/2 z-20 bg-transparent border-0 cursor-pointer p-0"
       >
-        <svg
-          width="40"
-          height="40"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="black"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        >
-          <polyline points="15 18 9 12 15 6" />
-        </svg>
+        <Image src="/leftScroll.png" alt="Next" width={100} height={100} />
       </button>
 
       {/* Slider Area */}
@@ -133,12 +122,14 @@ export default function CurvedSlider({
               animate={slotStyle[slot]}
               transition={{ type: "spring", stiffness: 220, damping: 26 }}
             >
-              <img
-                src={safeImages[cardId]}
-                alt="Card image"
-                className="w-full h-full object-contain"
-                draggable={false}
-              />
+            <img
+              src={safeImages[cardId]}
+              alt="Card image"
+              draggable={false}
+              className={`w-full h-full object-contain transition-all duration-300 ${
+                slot === "center" ? "blur-0" : "blur-md"
+              }`}
+            />
             </motion.div>
           ))}
         </AnimatePresence>
@@ -150,7 +141,7 @@ export default function CurvedSlider({
         aria-label="Next slide"
         className="absolute right-[5%] top-1/2 -translate-y-1/2 z-20 bg-transparent border-0 cursor-pointer p-0"
       >
-        <svg
+        {/* <svg
           width="40"
           height="40"
           viewBox="0 0 24 24"
@@ -161,7 +152,8 @@ export default function CurvedSlider({
           strokeLinejoin="round"
         >
           <polyline points="9 18 15 12 9 6" />
-        </svg>
+        </svg> */}
+        <Image src="/rightScroll.png" alt="Next" width={100} height={100} />
       </button>
     </div>
   );
