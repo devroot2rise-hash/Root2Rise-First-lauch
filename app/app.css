@@ -4,6 +4,11 @@
    LOGIN PAGE (NEW DESIGN)
 ========================= */
 /* ===== Guidance Stack Section ===== */
+@media (min-width:1020px) {
+  .card-stack {
+    width: 300px;
+  }
+}
 .gs-wrap {
   width: 100%;
   padding: 70px 18px;

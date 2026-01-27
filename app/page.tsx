@@ -15,6 +15,7 @@ import Join from "@/components/JoinCard";
 import SendMessage from "@/components/SendMessage";
 import Footer from "@/components/Footer";
 import GuidanceStack from "@/components/GuidanceStack";
+import CardStack from "@/components/CardStack";
 
 // Extend Window interface for Tally
 declare global {
@@ -111,8 +112,20 @@ export default function Home() {
     </div>
           </div>
         </div>
-        <section id="about" style={{ margin: "80px 0" }}>
-          <GuidanceStack />
+        <section id="about" style={{ margin: "80px 0",width:"100%",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",gap:"60px" }}>
+         <span
+  style={{
+    fontSize: "clamp(28px, 6vw, 60px)",
+    fontWeight: 600,
+    color: "#030303",
+    lineHeight: 1.1,
+    display: "inline-block",
+    textAlign: "center",
+  }}
+>
+  From Root to Rise
+</span>
+          <CardStack/>
         </section>
         {/* Vision Board */}
         <section style={{ margin: "40px 0" }}>
