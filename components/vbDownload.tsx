@@ -16,7 +16,7 @@ export default function DownloadCard() {
                 className="download-img"
               />
               <h3 className="download-caption">
-                Organize Dreams <span>into Vision Board</span>
+                Paint Your Career Canvas
               </h3>
             </div>
           </div>
