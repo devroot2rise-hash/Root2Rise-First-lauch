@@ -51,19 +51,11 @@ export default function CardStack() {
         return (
           <motion.li
             key={img}
-            drag={isTop ? "y" : false}
-            dragConstraints={{ top: 0, bottom: 0 }}
-            onDragEnd={isTop ? moveToBack : undefined}
-            whileDrag={{
-              scale:
-                typeof window !== "undefined" && window.innerWidth < 640
-                  ? 1.02
-                  : 1.04,
-              rotate:
-                typeof window !== "undefined" && window.innerWidth < 640
-                  ? -1
-                  : -2,
-            }}
+            onClick={isTop ? moveToBack : undefined}
+            onKeyDown={isTop ? (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); moveToBack(); } } : undefined}
+            role={isTop ? 'button' : undefined}
+            tabIndex={isTop ? 0 : -1}
+            whileTap={isTop ? { scale: 0.98, rotate: -2 } : undefined}
             animate={{
               scale: depth.scale,
               y: depth.y,
@@ -84,7 +76,7 @@ export default function CardStack() {
                   : 20,
               zIndex: depth.zIndex,
               overflow: "hidden",
-              cursor: isTop ? "grab" : "default",
+              cursor: isTop ? "pointer" : "default",
             }}
           >
             <img

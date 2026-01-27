@@ -20,7 +20,7 @@ export default function SWOTCard() {
   const openTallyForm = () => {
     window.Tally?.openPopup("zx7GDE", {
       layout: "modal",
-      width: 700,
+      width: 1000,
       autoClose: 3000,
     });
   };

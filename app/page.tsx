@@ -6,7 +6,6 @@ import { signOut } from "firebase/auth";
 import { auth } from "@/lib/firebase";
 import Image from "next/image";
 import "./app.css";
-import AboutUs from "@/components/aboutus";
 import VbDownload from "@/components/vbDownload";
 import CurvedSlider from "@/components/CurvedSlider";
 import FlipCard from "@/components/FlipCard";
@@ -14,7 +13,6 @@ import SWOTCard from "@/components/swotCard";
 import Join from "@/components/JoinCard";
 import SendMessage from "@/components/SendMessage";
 import Footer from "@/components/Footer";
-import GuidanceStack from "@/components/GuidanceStack";
 import CardStack from "@/components/CardStack";
 
 // Extend Window interface for Tally
@@ -45,7 +43,7 @@ export default function Home() {
     if (window.Tally) {
       window.Tally.openPopup('zx7GDE', {
         layout: 'modal',
-        width: 700,
+        width: 1000,
         autoClose: 3000
       });
     }
@@ -129,7 +127,7 @@ export default function Home() {
         </section>
         {/* Vision Board */}
         <section style={{ margin: "40px 0" }}>
-          <h3 style={{fontWeight:"600",fontSize:"45px",marginBottom:"60px"}}>Let's build you a career vision board!</h3>
+          <h3 style={{fontWeight:"600",fontSize:"45px",marginBottom:"60px"}}>Let&apos;s build you a career vision board!</h3>
           <div style={{ display: "flex", overflowX: "auto", padding: "16px 0", marginBottom: 200}}>
       <CurvedSlider
       images={[
