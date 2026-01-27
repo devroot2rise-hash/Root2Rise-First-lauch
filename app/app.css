@@ -23,8 +23,8 @@
 .gs-stack {
   position: relative;
   width: 100%;
+  height: 500px;
   max-width: 900px;
-  min-height: 520px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -177,7 +177,7 @@
   }
 
   .gs-stack {
-    min-height: auto;
+    height: 300px;
   }
 
   .gs-card {
@@ -198,7 +198,7 @@
 .login-page {
   min-height: 100vh;
   display: flex;
-  background: #f6f1ea; /* similar warm off-white */
+  background: #FFFDF6; /* similar warm off-white */
 }
 
 .login-left {
@@ -663,14 +663,13 @@
 }
 
 .join-img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
 }
 
 /* RIGHT CONTENT */
 .join-right {
-  padding: 55px 70px;
+  margin-left: 80px;
+  margin-right: 80px;
+  padding: 20px;
   display: flex;
   flex-direction: column;
   gap: 25px;
@@ -710,10 +709,10 @@
 @media (max-width: 950px) {
   .join-card {
     grid-template-columns: 1fr;
+    align-items: center;
   }
 
   .join-right {
-    padding: 35px 25px;
     text-align: center;
     align-items: center;
   }
@@ -799,6 +798,12 @@
   object-fit: cover;
   display: block;
 }
+@media (max-width:720px) {
+  .loop-video{
+    width: 100%;
+    height: auto;
+  }
+}
 
 .footer-text:hover {
   text-decoration: underline;
@@ -874,7 +879,7 @@
   min-height: 100vh;
   display: grid;
   grid-template-columns: 1fr 1fr;
-  background: #fbf7f0;
+  background: #FFFDF6;
 }
 
 /* left image area */
@@ -1239,7 +1244,7 @@
 .join-left {
   display: flex;
   align-items: center;
-  width: 50%;
+  width: 130%;
 }
 
 .jjoin-title-wrap {
@@ -1325,7 +1330,6 @@
 .join-btn:active {
   transform: translateY(0px);
 }
-
 /* Media query for mobile devices */
 @media (max-width: 780px) {
   /* Example selectors - replace with your own as needed */
@@ -1339,12 +1343,13 @@
   }
   .join-card {
     flex-direction: column;
-    align-items: stretch;
+    align-items:center;
     padding: 30px 25px;
   }
 
   .join-left {
     justify-content: center;
+    align-items: center;
   }
 
   .join-desc-wrap {
@@ -1355,6 +1360,7 @@
   .join-right {
     flex-direction: column;
     text-align: center;
+    padding: 0px;
   }
 
   .join-icon {
@@ -1362,8 +1368,14 @@
   }
 
   .join-btn {
-    width: 100%;
+    width: 30%;
     max-width: 260px;
+
+    font-size: 0.5rem;
+  }
+  .join-heading{
+    margin-top: 20px;
+    font-size: 1.1rem;
   }
 
   

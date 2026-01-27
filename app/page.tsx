@@ -27,7 +27,7 @@ declare global {
 
 export default function Home() {
   const { user } = useContext(AuthContext);
-  
+
   useEffect(() => {
     // Load Tally popup script
     const script = document.createElement('script');
