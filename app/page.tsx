@@ -111,7 +111,7 @@ export default function Home() {
     </div>
           </div>
         </div>
-        <section  style={{ margin: "80px 0" }}>
+        <section id="about" style={{ margin: "80px 0" }}>
           <GuidanceStack />
         </section>
         {/* Vision Board */}

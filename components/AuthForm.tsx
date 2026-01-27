@@ -397,11 +397,6 @@ export default function AuthForm({ mode }: { mode: "login" | "signup" }) {
                 />
               </div>
 
-              <div className="login-remember">
-                <input type="checkbox" />
-                <span>Remember for 30 days</span>
-              </div>
-
               <button className="login-btn" type="submit" disabled={loading}>
                 {loading ? "Logging in..." : "Login"}
               </button>
@@ -432,8 +427,7 @@ export default function AuthForm({ mode }: { mode: "login" | "signup" }) {
                 </div>
               )}
             </button>
-
-
+            
                 <button className="login-social-btn" type="button" disabled>
                   <div style={{display:"flex",flexDirection:"row",justifyContent:"center",gap:"20px"}}>
                   <Image
@@ -459,7 +453,6 @@ export default function AuthForm({ mode }: { mode: "login" | "signup" }) {
 
         {/* RIGHT SIDE IMAGE (PLACEHOLDER) */}
         <div className="login-right">
-          <div className="login-image-wrap">
             {/* Replace /loginpg2.png with your image */}
             <Image
               src="/loginimg2.png"
@@ -469,7 +462,6 @@ export default function AuthForm({ mode }: { mode: "login" | "signup" }) {
               className="login-image"
               priority
             />
-          </div>
         </div>
       </div>
     );
@@ -483,7 +475,7 @@ export default function AuthForm({ mode }: { mode: "login" | "signup" }) {
       {/* IMAGE SIDE */}
       <div className="auth-image-side">
         <Image
-          src="/loginpg2.png"
+          src="/loginpg4.png"
           alt="Auth Illustration"
           width={600}
           height={600}
