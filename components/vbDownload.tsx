@@ -1,3 +1,5 @@
+"use client";
+
 import Image from "next/image";
 
 export default function DownloadCard() {
@@ -9,7 +11,7 @@ export default function DownloadCard() {
           <div className="download-frame">
             <div className="download-inner">
               <Image
-                src="/vbDownload.png"
+                src="/vbdownload.png"
                 alt="Illustration"
                 width={700}
                 height={700}
