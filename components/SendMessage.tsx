@@ -1,4 +1,3 @@
-
 "use client";
 import { useState } from "react";
 import { collection, addDoc } from "firebase/firestore";
@@ -6,22 +5,21 @@ import { db } from "@/lib/firebase";
 
 export default function SendMessage() {
   const [formData, setFormData] = useState({
-    fullName: "",
+    firstName: "",
+    lastName: "",
     email: "",
-    message: "",
+    message: ""
   });
 
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitStatus, setSubmitStatus] = useState<"idle" | "success" | "error">(
-    "idle"
-  );
+  const [submitStatus, setSubmitStatus] = useState<"idle" | "success" | "error">("idle");
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value,
+      [e.target.name]: e.target.value
     });
   };
 
@@ -32,18 +30,20 @@ export default function SendMessage() {
 
     try {
       await addDoc(collection(db, "messages"), {
-        firstName: formData.fullName,
+        firstName: formData.firstName,
+        lastName: formData.lastName,
         email: formData.email,
         message: formData.message,
-        createdAt: new Date(),
+        createdAt: new Date()
       });
 
       setSubmitStatus("success");
 
       setFormData({
-        fullName: "",
+        firstName: "",
+        lastName: "",
         email: "",
-        message: "",
+        message: ""
       });
     } catch (error) {
       console.error("Error saving message:", error);
@@ -59,20 +59,35 @@ export default function SendMessage() {
         <h2 className="contact-title">Let&apos;s talk direction!</h2>
 
         <form className="contact-form" onSubmit={handleSubmit}>
-          {/* Row 1 */}
+          {/* Row 1 - First Name and Last Name */}
           <div className="contact-row-2">
             <div className="contact-field">
-              <label>Hey, you&apos;re..</label>
+              <label className="text-4xl">Hey, you&apos;re..</label>
               <input
                 type="text"
-                name="fullName"
-                value={formData.fullName}
+                name="firstName"
+                value={formData.firstName}
                 onChange={handleChange}
-                placeholder="Full Name"
+                placeholder="First Name"
                 required
               />
             </div>
 
+            <div className="contact-field">
+              <label>Last Name</label>
+              <input
+                type="text"
+                name="lastName"
+                value={formData.lastName}
+                onChange={handleChange}
+                placeholder="Last Name"
+                required
+              />
+            </div>
+          </div>
+
+          {/* Row 2 - Email */}
+          <div className="contact-row-1">
             <div className="contact-field">
               <label>Your Professional Address</label>
               <input
@@ -86,7 +101,7 @@ export default function SendMessage() {
             </div>
           </div>
 
-          {/* Row 2 */}
+          {/* Row 3 - Message */}
           <div className="contact-row-1">
             <div className="contact-field">
               <label>Your thoughts in your words</label>
@@ -102,7 +117,7 @@ export default function SendMessage() {
 
           {submitStatus === "success" && (
             <div className="contact-alert success">
-              Message sent successfully!
+              Message sent successfully! We&apos;ll get back to you soon.
             </div>
           )}
 

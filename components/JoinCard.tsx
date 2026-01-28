@@ -13,8 +13,8 @@ export default function JoinCard() {
       setShowAuthModal(true);
       return;
     }
-    // Add your community link action here when user is authenticated
-    // For example: window.location.href = "your-community-link";
+    // Open the WhatsApp group invite in a new tab for authenticated users
+    window.open('https://chat.whatsapp.com/LoQasPG9W0ULe3FvZEw67Z?mode=gi_t', '_blank', 'noopener,noreferrer');
   };
 
   return (

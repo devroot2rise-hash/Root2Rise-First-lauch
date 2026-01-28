@@ -170,7 +170,20 @@ export default function Home() {
         <h1 className="headline">Welcome to your clarity space..</h1>
         {/* Placeholder for Main Illustration */}
         <div style={{display:"flex", justifyContent:"center",flexDirection:"row",gap:"40px"}}>
-          <div className="whatsappbtn" onClick={() => { if (!user) { setShowAuthModal(true); } }} style={{ cursor: "pointer" }}><span>Co-Lab Community</span></div>
+          <button
+            className="whatsappbtn"
+            onClick={() => {
+              if (!user) {
+                setShowAuthModal(true);
+                return;
+              }
+              // open WhatsApp group invite in a new tab
+              window.open('https://chat.whatsapp.com/LoQasPG9W0ULe3FvZEw67Z?mode=gi_t', '_blank', 'noopener,noreferrer');
+            }}
+            style={{ cursor: "pointer", border: 'none', padding: 0 }}
+          >
+            <span>Co-Lab Community</span>
+          </button>
           <button onClick={() => { if (!user) { setShowAuthModal(true); } else { openTallyForm(); } }} className="whatsappbtn"><span>The Career Compass</span></button>
           {/* <div className="whatsappbtn"><Image src="/whatsappLogo.png" alt="whatsapp Logo" width={50} height={50} className="whatsapplogo"/><span>Join Now</span></div> */}
           {/* <div className="swotbtn" onClick={openTallyForm} style={{cursor: "pointer"}}><span>SWOT</span></div> */}
