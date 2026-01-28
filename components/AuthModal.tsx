@@ -139,16 +139,13 @@ export default function AuthModal({ isOpen, onClose, onSuccess }: AuthModalProps
         onClick={onClose}
       >
         <div
-          className="login-page"
+          className="modal-inner login-page"
           style={{
             borderRadius: "16px",
             maxWidth: "1100px",
             width: "100%",
-            maxHeight: "100px",
             overflow: "hidden",
             position: "relative",
-            display: "grid",
-            gridTemplateColumns: "1fr 1fr",
           }}
           onClick={(e) => e.stopPropagation()}
         >
@@ -301,17 +298,14 @@ export default function AuthModal({ isOpen, onClose, onSuccess }: AuthModalProps
       }}
       onClick={onClose}
     >
-      <div
-        className="auth-page"
+        <div
+        className="modal-inner auth-page"
         style={{
           borderRadius: "16px",
           maxWidth: "1100px",
           width: "100%",
-          maxHeight: "1100px",
           overflow: "hidden",
           position: "relative",
-          display: "grid",
-          gridTemplateColumns: "1fr 1fr",
         }}
         onClick={(e) => e.stopPropagation()}
       >

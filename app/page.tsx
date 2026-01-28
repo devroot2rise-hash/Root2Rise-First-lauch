@@ -25,6 +25,83 @@ declare global {
   }
 }
 
+// Hero Section Component with auto-switching
+function HeroSection() {
+  const [showVideo, setShowVideo] = useState(true);
+  const [isTransitioning, setIsTransitioning] = useState(false);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setIsTransitioning(true);
+      setTimeout(() => {
+        setShowVideo(prev => !prev);
+        setIsTransitioning(false);
+      }, 500); // Half second for fade out, then fade in
+    }, 3000);
+
+    return () => {
+      clearInterval(interval);
+    };
+  }, []);
+
+  return (
+    <div style={{ 
+      margin: "0 auto", 
+      display: "flex", 
+      alignItems: "center", 
+      justifyContent: "center",
+      position: "relative",
+      overflow: "hidden"
+    }}>
+      {showVideo ? (
+        <div 
+          className="loop-video"
+          style={{
+            opacity: isTransitioning ? 0 : 1,
+            transition: "opacity 0.5s ease-in-out",
+            transform: isTransitioning ? "scale(1.05)" : "scale(1)",
+          }}
+        >
+          <video
+            src="HeroAnimation_prob4.mp4"
+            autoPlay
+            loop
+            muted
+            playsInline
+            preload="auto"
+            style={{ 
+              transition: "all 0.5s ease-in-out",
+              filter: isTransitioning ? "blur(2px)" : "blur(0px)"
+            }}
+          />
+        </div>
+      ) : (
+        <div 
+          className="hero-image" 
+          style={{
+            opacity: isTransitioning ? 0 : 1,
+            transition: "all 0.5s ease-in-out",
+            transform: isTransitioning ? "scale(1.05)" : "scale(1)",
+          }}
+        >
+          <Image
+            src="/hero2.png"
+            alt="Hero illustration"
+            width={1300}
+            height={900}
+            style={{ 
+              maxWidth: "100%", 
+              height: "auto",
+              transition: "all 0.5s ease-in-out",
+              filter: isTransitioning ? "blur(2px)" : "blur(0px)"
+            }}
+          />
+        </div>
+      )}
+    </div>
+  );
+}
+
 export default function Home() {
   const { user } = useContext(AuthContext);
   const [showAuthModal, setShowAuthModal] = useState(false);
@@ -97,21 +174,7 @@ export default function Home() {
           {/* <div className="whatsappbtn"><Image src="/whatsappLogo.png" alt="whatsapp Logo" width={50} height={50} className="whatsapplogo"/><span>Join Now</span></div> */}
           {/* <div className="swotbtn" onClick={openTallyForm} style={{cursor: "pointer"}}><span>SWOT</span></div> */}
         </div>
-        <div >
-          <div style={{margin: "0 auto", display: "flex", alignItems: "center", justifyContent: "center" }}>
-            {/* <Image src="/clgstu2.png" alt="Main Illustration" width={2000} height={800}/> */}
-                <div className={`loop-video`}>
-              <video
-              src={"HeroAnimation_prob4.mp4"}
-              autoPlay
-              loop
-              muted
-               playsInline
-              preload="auto"
-              />
-    </div>
-          </div>
-        </div>
+        <HeroSection />
         <section id="about" style={{ margin: "80px 0",width:"100%",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",gap:"60px" }}>
          <span
   style={{
@@ -129,7 +192,7 @@ export default function Home() {
         </section>
         {/* Vision Board */}
         <section style={{ margin: "40px 0" }}>
-          <h3 style={{fontWeight:"600",fontSize:"45px",marginBottom:"60px"}}>Let&apos;s build you a career vision board!</h3>
+          <h3 style={{fontWeight:"600",fontSize:"45px",marginBottom:"60px"}}>Let&apos;s build you a Career Vision Board!</h3>
           <div style={{ display: "flex", overflowX: "auto", padding: "16px 0", marginBottom: 200}}>
       <CurvedSlider
       images={[

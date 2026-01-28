@@ -1111,6 +1111,21 @@
     display: none;
   }
 }
+
+/* Modal inner: constrain modal height and enable scrolling on small screens */
+.modal-inner {
+  max-height: calc(100vh - 40px);
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+@media (max-width: 480px) {
+  .modal-inner {
+    max-width: 96% !important;
+    margin: 0 2%;
+    border-radius: 12px;
+  }
+}
 .btn{
     width: 188px;
     background-color: #1e1e1e;
