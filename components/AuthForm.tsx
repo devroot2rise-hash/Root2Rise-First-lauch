@@ -68,6 +68,25 @@ export default function AuthForm({ mode }: { mode: "login" | "signup" }) {
       const provider = new GoogleAuthProvider();
       const result = await signInWithPopup(auth, provider);
 
+      // Detect new user: prefer additionalUserInfo.isNewUser, fallback to metadata check
+      const gUser = result.user;
+      const isNewFromResult = (result as any).additionalUserInfo?.isNewUser;
+      const isNewFromMetadata = !!(
+        gUser?.metadata?.creationTime &&
+        gUser?.metadata?.lastSignInTime &&
+        gUser.metadata.creationTime === gUser.metadata.lastSignInTime
+      );
+      const isNew = Boolean(isNewFromResult || isNewFromMetadata);
+
+      // If new user, send welcome email (non-blocking)
+      if (isNew && gUser?.email) {
+        const user_name = gUser.displayName ?? gUser.email.split("@")[0] ?? "New User";
+        console.log("Google signup new user:", user_name, gUser.email, isNewFromResult, isNewFromMetadata);
+        sendWelcomeEmail(gUser.email, user_name).catch((e) => {
+          console.error("Welcome email (google) failed:", e);
+        });
+      }
+
       const token = await result.user.getIdToken();
       setAuthCookie(token);
 
