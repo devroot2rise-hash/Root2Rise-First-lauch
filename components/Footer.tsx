@@ -76,12 +76,6 @@ export default function Footer() {
           </a>
         </div>
       </div>
-
-      <div className="footer-bottom">
-        <p className="footer-bottom-text">
-          © 2026 | Designed and coded with <span className="footer-heart">❤</span>
-        </p>
-      </div>
     </footer>
   );
 }

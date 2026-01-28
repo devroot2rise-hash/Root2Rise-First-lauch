@@ -85,15 +85,16 @@ function HeroSection() {
           }}
         >
           <Image
-            src="/hero2.png"
-            alt="Hero illustration"
-            width={1300}
+            src="/VibeImage.png"
+            alt="Heroillustration"
+            width={1200}
             height={900}
             style={{ 
               maxWidth: "100%", 
               height: "auto",
-              transition: "all 0.s ease-in-out",
-              filter: isTransitioning ? "blur(2px)" : "blur(0px)"
+              transition: "all 0.5s ease-in-out",
+              filter: isTransitioning ? "blur(2px)" : "blur(0px)",
+              padding: "30px"
             }}
           />
         </div>
