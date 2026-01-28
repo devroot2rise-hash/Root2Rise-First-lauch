@@ -36,8 +36,8 @@ function HeroSection() {
       setTimeout(() => {
         setShowVideo(prev => !prev);
         setIsTransitioning(false);
-      }, 500); // Half second for fade out, then fade in
-    }, 3000);
+      }, 200); // Half second for fade out, then fade in
+    }, 4000);
 
     return () => {
       clearInterval(interval);
@@ -92,7 +92,7 @@ function HeroSection() {
             style={{ 
               maxWidth: "100%", 
               height: "auto",
-              transition: "all 0.5s ease-in-out",
+              transition: "all 0.s ease-in-out",
               filter: isTransitioning ? "blur(2px)" : "blur(0px)"
             }}
           />
