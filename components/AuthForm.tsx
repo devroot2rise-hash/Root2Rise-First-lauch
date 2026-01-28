@@ -45,7 +45,7 @@ export default function AuthForm({ mode }: { mode: "login" | "signup" }) {
         );
 
         // welcome email for signup only (don't block UI if it fails)
-        sendWelcomeEmail(email).catch((e) => {
+        sendWelcomeEmail(email, name).catch((e) => {
           console.error("Welcome email failed:", e);
         });
       }
