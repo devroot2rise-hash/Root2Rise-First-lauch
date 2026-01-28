@@ -88,16 +88,26 @@ export default function AuthModal({ isOpen, onClose, onSuccess }: AuthModalProps
       const result = await signInWithPopup(auth, provider);
 
       // If this is a new user (first-time sign-in via Google), send welcome email
-      const isNew = (result as any).additionalUserInfo?.isNewUser;
       const gUser = result.user;
+
+      // Detect new user robustly: prefer additionalUserInfo.isNewUser,
+      // fallback to comparing metadata creationTime and lastSignInTime.
+      const isNewFromResult = (result as any).additionalUserInfo?.isNewUser;
+      const isNewFromMetadata = !!(
+        gUser?.metadata?.creationTime &&
+        gUser?.metadata?.lastSignInTime &&
+        gUser.metadata.creationTime === gUser.metadata.lastSignInTime
+      );
+
+      const isNew = Boolean(isNewFromResult || isNewFromMetadata);
+
       if (isNew && gUser && gUser.email) {
-        const user_name = gUser.displayName ?? "New User";
-        console.log( "this is ",user_name);
-        
-        sendWelcomeEmail(
-          gUser.email,
-          user_name,
-        ).catch((e) => {
+        // Prefer displayName, fallback to email local-part or a generic label
+        const user_name = gUser.displayName ?? gUser.email.split("@")[0] ?? "New User";
+        console.log("Google signup detected as new user - name:", user_name, "email:", gUser.email, "isNewFromResult:", isNewFromResult, "isNewFromMetadata:", isNewFromMetadata);
+
+        // Fire-and-forget welcome email; log any error
+        sendWelcomeEmail(gUser.email, user_name).catch((e) => {
           console.error("Welcome email (google) failed:", e);
         });
       }
