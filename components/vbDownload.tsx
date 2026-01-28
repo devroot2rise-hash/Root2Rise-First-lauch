@@ -5,6 +5,7 @@ import { useContext, useState } from "react";
 import { AuthContext } from "@/context/AuthContext";
 import AuthModal from "./AuthModal";
 
+
 export default function DownloadCard() {
   const { user } = useContext(AuthContext);
   const [showAuthModal, setShowAuthModal] = useState(false);
@@ -29,6 +30,9 @@ export default function DownloadCard() {
           <div className="download-left">
             <div className="download-frame">
               <div className="download-inner">
+                 <h3 className="download-caption font-instrumentSans">
+                  Paint Your Career Canvas
+                </h3>
                 <Image
                   src="/vbdownload.png"
                   alt="Illustration"
@@ -36,9 +40,7 @@ export default function DownloadCard() {
                   height={700}
                   className="download-img"
                 />
-                <h3 className="download-caption">
-                  Paint Your Career Canvas
-                </h3>
+
               </div>
             </div>
           </div>

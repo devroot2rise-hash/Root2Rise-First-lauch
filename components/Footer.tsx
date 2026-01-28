@@ -11,8 +11,8 @@ export default function Footer() {
         <div className="footer-contact">
           <div className="footer-row">
             <span className="footer-icon">✉</span>
-            <a href="mailto:devroot2rise@gmail.com" className="footer-text">
-              devroot2rise@gmail.com
+            <a href="mailto:explore@root2rise.co.in" className="footer-text">
+                explore@root2rise.co.in
             </a>
             <button className="footer-copy" type="button">
               ⧉
@@ -21,8 +21,8 @@ export default function Footer() {
 
           <div className="footer-row">
             <span className="footer-icon">📞</span>
-            <a href="tel:+91XXXXXXXXXX" className="footer-text">
-              +91XXXXXXXXXX
+            <a href="tel:+917505737178" className="footer-text">
+              +917505737178
             </a>
             <button className="footer-copy" type="button">
               ⧉

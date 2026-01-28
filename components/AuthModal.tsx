@@ -9,6 +9,7 @@ import {
   GoogleAuthProvider,
   signInWithPopup,
 } from "firebase/auth";
+import { updateProfile } from "firebase/auth";
 import { sendWelcomeEmail } from "@/lib/email";
 
 interface AuthModalProps {
@@ -30,23 +31,49 @@ export default function AuthModal({ isOpen, onClose, onSuccess }: AuthModalProps
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    console.log("handleSubmit -> mode:", mode, "name:", name);
     setError("");
     setLoading(true);
+
+    // client-side validation: require name on signup
+    if (mode === "signup" && name.trim() === "") {
+      setError("Please enter your name");
+      setLoading(false);
+      return;
+    }
 
     try {
       if (mode === "login") {
         await signInWithEmailAndPassword(auth, email, password);
       } else {
-        await createUserWithEmailAndPassword(auth, email, password);
-        sendWelcomeEmail(email).catch((e) => {
+        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+
+        // Try to set the user's display name so it's available in Firebase profile
+        try {
+          if (userCredential.user) {
+            await updateProfile(userCredential.user, { displayName: name });
+          }
+        } catch (profileErr) {
+          console.warn("updateProfile failed:", profileErr);
+        }
+
+        // Debug: log name before sending
+        console.log("Signing up - name:", name);
+
+        // Send welcome email (non-blocking). pass name and link URLs if provided.
+        sendWelcomeEmail(
+          email,
+          name,
+        ).catch((e) => {
           console.error("Welcome email failed:", e);
         });
       }
       
       onSuccess?.();
       onClose();
-    } catch (err: any) {
-      setError(err.message || "Something went wrong");
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : String(err);
+      setError(message || "Something went wrong");
     } finally {
       setLoading(false);
     }
@@ -58,11 +85,28 @@ export default function AuthModal({ isOpen, onClose, onSuccess }: AuthModalProps
 
     try {
       const provider = new GoogleAuthProvider();
-      await signInWithPopup(auth, provider);
+      const result = await signInWithPopup(auth, provider);
+
+      // If this is a new user (first-time sign-in via Google), send welcome email
+      const isNew = (result as any).additionalUserInfo?.isNewUser;
+      const gUser = result.user;
+      if (isNew && gUser && gUser.email) {
+        const user_name = gUser.displayName ?? "New User";
+        console.log( "this is ",user_name);
+        
+        sendWelcomeEmail(
+          gUser.email,
+          user_name,
+        ).catch((e) => {
+          console.error("Welcome email (google) failed:", e);
+        });
+      }
+
       onSuccess?.();
       onClose();
-    } catch (err: any) {
-      setError(err.message || "Google sign-in failed");
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : String(err);
+      setError(message || "Google sign-in failed");
     } finally {
       setGoogleLoading(false);
     }
@@ -309,7 +353,12 @@ export default function AuthModal({ isOpen, onClose, onSuccess }: AuthModalProps
                   type="text"
                   placeholder="Enter your name"
                   value={name}
-                  onChange={(e) => setName(e.target.value)}
+                  onChange={(e) => {
+                    console.log("Name input onChange:", e.target.value);
+                    setName(e.target.value);
+                  }}
+                  required
+                  autoComplete="name"
                 />
               </div>
               
