@@ -1,5 +1,8 @@
 "use client";
 import Image from "next/image";
+import { useContext, useState } from "react";
+import { AuthContext } from "@/context/AuthContext";
+import AuthModal from "@/components/AuthModal";
 
 declare global {
   interface Window {
@@ -17,7 +20,14 @@ declare global {
 }
 
 export default function SWOTCard() {
+  const { user } = useContext(AuthContext);
+  const [showAuthModal, setShowAuthModal] = useState(false);
+
   const openTallyForm = () => {
+    if (!user) {
+      setShowAuthModal(true);
+      return;
+    }
     window.Tally?.openPopup("zx7GDE", {
       layout: "modal",
       width: 1000,
@@ -26,6 +36,7 @@ export default function SWOTCard() {
   };
 
   return (
+    <>
     <section className="swot-card">
       {/* LEFT CONTENT */}
       <div className="swot-left">
@@ -49,5 +60,7 @@ export default function SWOTCard() {
         />
       </div>
     </section>
+    <AuthModal isOpen={showAuthModal} onClose={() => setShowAuthModal(false)} />
+    </>
   );
 }

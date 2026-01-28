@@ -1,6 +1,6 @@
 "use client";
 import Link from "next/link";
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "@/context/AuthContext";
 import { signOut } from "firebase/auth";
 import { auth } from "@/lib/firebase";
@@ -14,6 +14,7 @@ import Join from "@/components/JoinCard";
 import SendMessage from "@/components/SendMessage";
 import Footer from "@/components/Footer";
 import CardStack from "@/components/CardStack";
+import AuthModal from "@/components/AuthModal";
 
 // Extend Window interface for Tally
 declare global {
@@ -26,6 +27,7 @@ declare global {
 
 export default function Home() {
   const { user } = useContext(AuthContext);
+  const [showAuthModal, setShowAuthModal] = useState(false);
 
   useEffect(() => {
     // Load Tally popup script
@@ -90,8 +92,8 @@ export default function Home() {
         <h1 className="headline">Welcome to your clarity space..</h1>
         {/* Placeholder for Main Illustration */}
         <div style={{display:"flex", justifyContent:"center",flexDirection:"row",gap:"40px"}}>
-          <div className="whatsappbtn"><span>Co-Lab Community</span></div>
-          <button onClick={openTallyForm} className="whatsappbtn"><span>The Career Compass</span></button>
+          <div className="whatsappbtn" onClick={() => { if (!user) { setShowAuthModal(true); } }} style={{ cursor: "pointer" }}><span>Co-Lab Community</span></div>
+          <button onClick={() => { if (!user) { setShowAuthModal(true); } else { openTallyForm(); } }} className="whatsappbtn"><span>The Career Compass</span></button>
           {/* <div className="whatsappbtn"><Image src="/whatsappLogo.png" alt="whatsapp Logo" width={50} height={50} className="whatsapplogo"/><span>Join Now</span></div> */}
           {/* <div className="swotbtn" onClick={openTallyForm} style={{cursor: "pointer"}}><span>SWOT</span></div> */}
         </div>
@@ -187,6 +189,7 @@ export default function Home() {
         </section>
       </main>
         <Footer />
+        <AuthModal isOpen={showAuthModal} onClose={() => setShowAuthModal(false)} />
     </div>
   );
 }

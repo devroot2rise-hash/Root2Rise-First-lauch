@@ -1,7 +1,9 @@
 "use client";
 import Image from "next/image";
-import { useEffect, useMemo, useState } from "react";
+import { useContext, useEffect, useMemo, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
+import { AuthContext } from "@/context/AuthContext";
+import AuthModal from "./AuthModal";
 
 type CurvedSliderProps = {
   images: string[];
@@ -18,20 +20,30 @@ export default function CurvedSlider({
   autoplayDelay = 2500,
   keyboardNavigation = true,
 }: CurvedSliderProps) {
+  const { user } = useContext(AuthContext);
+  const [showAuthModal, setShowAuthModal] = useState(false);
   const safeImages = useMemo(() => images.filter(Boolean), [images]);
   const total = safeImages.length;
 
   const [active, setActive] = useState(0);
 
-  const prev = () => {
+  const checkAuthAndNavigate = (direction: "prev" | "next") => {
+    if (!user) {
+      setShowAuthModal(true);
+      return;
+    }
+
     if (total <= 1) return;
-    setActive((p) => (p - 1 + total) % total);
+    
+    if (direction === "prev") {
+      setActive((p) => (p - 1 + total) % total);
+    } else {
+      setActive((p) => (p + 1) % total);
+    }
   };
 
-  const next = () => {
-    if (total <= 1) return;
-    setActive((p) => (p + 1) % total);
-  };
+  const prev = () => checkAuthAndNavigate("prev");
+  const next = () => checkAuthAndNavigate("next");
 
   // keyboard
   useEffect(() => {
@@ -45,15 +57,17 @@ export default function CurvedSlider({
     window.addEventListener("keydown", onKeyDown);
     return () => window.removeEventListener("keydown", onKeyDown);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [keyboardNavigation, total]);
+  }, [keyboardNavigation, total, user]);
 
-  // autoplay
+  // autoplay - only if user is authenticated
   useEffect(() => {
-    if (!autoplay || total <= 1) return;
-    const id = setInterval(() => next(), autoplayDelay);
+    if (!autoplay || total <= 1 || !user) return;
+    const id = setInterval(() => {
+      setActive((p) => (p + 1) % total);
+    }, autoplayDelay);
     return () => clearInterval(id);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [autoplay, autoplayDelay, total]);
+  }, [autoplay, autoplayDelay, total, user]);
 
   if (total === 0) {
     return (
@@ -101,60 +115,55 @@ export default function CurvedSlider({
   ];
 
   return (
-    <div className="w-full flex items-center justify-center relative overflow-hidden">
-      {/* Prev */}
-      <button
-        onClick={prev}
-        aria-label="Previous slide"
-        className="absolute left-[5%] top-1/2 -translate-y-1/2 z-20 bg-transparent border-0 cursor-pointer p-0"
-      >
-        <Image src="/leftScroll.png" alt="Next" width={100} height={100} />
-      </button>
+    <>
+      <div className="w-full flex items-center justify-center relative overflow-hidden">
+        {/* Prev */}
+        <button
+          onClick={prev}
+          aria-label="Previous slide"
+          className="absolute left-[5%] top-1/2 -translate-y-1/2 z-20 bg-transparent border-0 cursor-pointer p-0"
+        >
+          <Image src="/leftScroll.png" alt="Next" width={100} height={100} />
+        </button>
 
-      {/* Slider Area */}
-      <div className="relative w-[50%] max-w-[520px] h-[60vh] flex items-center justify-center">
-        <AnimatePresence initial={false}>
-          {visibleCards.map(({ cardId, slot }) => (
-            <motion.div
-              key={cardId}
-              layoutId={`card-${cardId}`} // 🔥 this makes it move smoothly between slots
-              className="absolute w-full h-full rounded-2xl overflow-hidden"
-              animate={slotStyle[slot]}
-              transition={{ type: "spring", stiffness: 220, damping: 26 }}
-            >
-            <img
-              src={safeImages[cardId]}
-              alt="Card image"
-              draggable={false}
-              className={`w-full h-full object-contain transition-all duration-300 ${
-                slot === "center" ? "blur-0" : "blur-md"
-              }`}
-            />
-            </motion.div>
-          ))}
-        </AnimatePresence>
+        {/* Slider Area */}
+        <div className="relative w-[50%] max-w-[520px] h-[60vh] flex items-center justify-center">
+          <AnimatePresence initial={false}>
+            {visibleCards.map(({ cardId, slot }) => (
+              <motion.div
+                key={cardId}
+                layoutId={`card-${cardId}`} // 🔥 this makes it move smoothly between slots
+                className="absolute w-full h-full rounded-2xl overflow-hidden"
+                animate={slotStyle[slot]}
+                transition={{ type: "spring", stiffness: 220, damping: 26 }}
+              >
+              <img
+                src={safeImages[cardId]}
+                alt="Card image"
+                draggable={false}
+                className={`w-full h-full object-contain transition-all duration-300 ${
+                  slot === "center" ? "blur-0" : "blur-md"
+                }`}
+              />
+              </motion.div>
+            ))}
+          </AnimatePresence>
+        </div>
+
+        {/* Next */}
+        <button
+          onClick={next}
+          aria-label="Next slide"
+          className="absolute right-[5%] top-1/2 -translate-y-1/2 z-20 bg-transparent border-0 cursor-pointer p-0"
+        >
+          <Image src="/rightScroll.png" alt="Next" width={100} height={100} />
+        </button>
       </div>
 
-      {/* Next */}
-      <button
-        onClick={next}
-        aria-label="Next slide"
-        className="absolute right-[5%] top-1/2 -translate-y-1/2 z-20 bg-transparent border-0 cursor-pointer p-0"
-      >
-        {/* <svg
-          width="40"
-          height="40"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="black"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        >
-          <polyline points="9 18 15 12 9 6" />
-        </svg> */}
-        <Image src="/rightScroll.png" alt="Next" width={100} height={100} />
-      </button>
-    </div>
+      <AuthModal
+        isOpen={showAuthModal}
+        onClose={() => setShowAuthModal(false)}
+      />
+    </>
   );
 }

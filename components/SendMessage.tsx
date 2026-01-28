@@ -62,25 +62,25 @@ export default function SendMessage() {
           {/* Row 1 */}
           <div className="contact-row-2">
             <div className="contact-field">
-              <label>Hey, you&apos;re.. (Full Name)</label>
+              <label>Hey, you&apos;re..</label>
               <input
                 type="text"
                 name="fullName"
                 value={formData.fullName}
                 onChange={handleChange}
-                placeholder=""
+                placeholder="Full Name"
                 required
               />
             </div>
 
             <div className="contact-field">
-              <label>Your Professional Address (Email)</label>
+              <label>Your Professional Address</label>
               <input
                 type="email"
                 name="email"
                 value={formData.email}
                 onChange={handleChange}
-                placeholder=""
+                placeholder="Email"
                 required
               />
             </div>

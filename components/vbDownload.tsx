@@ -1,48 +1,66 @@
 "use client";
 
 import Image from "next/image";
+import { useContext, useState } from "react";
+import { AuthContext } from "@/context/AuthContext";
+import AuthModal from "./AuthModal";
 
 export default function DownloadCard() {
-  return (
-    <section className="download-wrap">
-      <div className="download-card">
-        {/* LEFT IMAGE CARD */}
-        <div className="download-left">
-          <div className="download-frame">
-            <div className="download-inner">
-              <Image
-                src="/vbdownload.png"
-                alt="Illustration"
-                width={700}
-                height={700}
-                className="download-img"
-              />
-              <h3 className="download-caption">
-                Paint Your Career Canvas
-              </h3>
-            </div>
-          </div>
-        </div>
+  const { user } = useContext(AuthContext);
+  const [showAuthModal, setShowAuthModal] = useState(false);
 
-        {/* RIGHT CONTENT */}
-        <div className="download-right">
-          <h2 className="download-title">Organise your dreams into a vision board</h2>
-          <p className="download-desc">
-           That speaks your journey
-          </p>
-          <button
-  className="download-btn"
-  onClick={() => {
+  const handleDownload = () => {
+    if (!user) {
+      setShowAuthModal(true);
+      return;
+    }
+
     const link = document.createElement("a");
     link.href = "/VisionBoard.png";
     link.download = "vision-board.png";
     link.click();
-  }}
->
-  Download
-</button>
+  };
+
+  return (
+    <>
+      <section className="download-wrap">
+        <div className="download-card">
+          {/* LEFT IMAGE CARD */}
+          <div className="download-left">
+            <div className="download-frame">
+              <div className="download-inner">
+                <Image
+                  src="/vbdownload.png"
+                  alt="Illustration"
+                  width={700}
+                  height={700}
+                  className="download-img"
+                />
+                <h3 className="download-caption">
+                  Paint Your Career Canvas
+                </h3>
+              </div>
+            </div>
+          </div>
+
+          {/* RIGHT CONTENT */}
+          <div className="download-right">
+            <h2 className="download-title">Organise your dreams into a vision board</h2>
+            <p className="download-desc">
+             That speaks your journey
+            </p>
+            <button className="download-btn" onClick={handleDownload}>
+              Download
+            </button>
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
+
+      <AuthModal
+        isOpen={showAuthModal}
+        onClose={() => setShowAuthModal(false)}
+        onSuccess={handleDownload}
+      />
+    </>
   );
 }

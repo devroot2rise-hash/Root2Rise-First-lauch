@@ -10,7 +10,7 @@ import {
   GoogleAuthProvider,
   signInWithPopup,
 } from "firebase/auth";
-// import { sendWelcomeEmail } from "@/lib/email";
+import { sendWelcomeEmail } from "@/lib/email";
 
 function setAuthCookie(token: string) {
   document.cookie = `firebase-auth-token=${token}; path=/;`;
@@ -44,8 +44,10 @@ export default function AuthForm({ mode }: { mode: "login" | "signup" }) {
           password
         );
 
-        // welcome email for signup only
-        // await sendWelcomeEmail(email);
+        // welcome email for signup only (don't block UI if it fails)
+        sendWelcomeEmail(email).catch((e) => {
+          console.error("Welcome email failed:", e);
+        });
       }
 
       const token = await userCredential.user.getIdToken();
