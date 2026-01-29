@@ -14,7 +14,7 @@ export default function JoinCard() {
       return;
     }
     // Open the WhatsApp group invite in a new tab for authenticated users
-    window.open('https://chat.whatsapp.com/LoQasPG9W0ULe3FvZEw67Z?mode=gi_t', '_blank', 'noopener,noreferrer');
+    window.open(process.env.NEXT_PUBLIC_WHATSAPP_LINK, '_blank', 'noopener,noreferrer');
   };
 
   return (

@@ -49,7 +49,7 @@ export default function Footer() {
           </a>
 
           <a
-            href="https://chat.whatsapp.com/LoQasPG9W0ULe3FvZEw67Z?mode=gi_t"
+            href={process.env.NEXT_PUBLIC_WHATSAPP_LINK}
             className="footer-social-icon footer-social-whatsapp"
             target="_blank"
             rel="noopener noreferrer"

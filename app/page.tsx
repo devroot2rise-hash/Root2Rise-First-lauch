@@ -178,7 +178,7 @@ export default function Home() {
                 return;
               }
               // open WhatsApp group invite in a new tab
-              window.open('https://chat.whatsapp.com/LoQasPG9W0ULe3FvZEw67Z?mode=gi_t', '_blank', 'noopener,noreferrer');
+              window.open(process.env.NEXT_PUBLIC_WHATSAPP_LINK, '_blank', 'noopener,noreferrer');
             }}
             style={{ cursor: "pointer", border: 'none', padding: 0 }}
           >
