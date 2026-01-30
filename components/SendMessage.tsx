@@ -62,7 +62,7 @@ export default function SendMessage() {
           {/* Row 1 - First Name and Last Name */}
           <div className="contact-row-2">
             <div className="contact-field">
-              <label className="text-4xl">Hey, you&apos;re..</label>
+              <label className="text-4xl">First Name</label>
               <input
                 type="text"
                 name="firstName"
