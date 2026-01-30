@@ -1,9 +1,7 @@
 "use client";
 import Image from "next/image";
-import { useContext, useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { AuthContext } from "@/context/AuthContext";
-import AuthModal from "./AuthModal";
 
 type CurvedSliderProps = {
   images: string[];
@@ -20,30 +18,20 @@ export default function CurvedSlider({
   autoplayDelay = 2500,
   keyboardNavigation = true,
 }: CurvedSliderProps) {
-  const { user } = useContext(AuthContext);
-  const [showAuthModal, setShowAuthModal] = useState(false);
   const safeImages = useMemo(() => images.filter(Boolean), [images]);
   const total = safeImages.length;
 
   const [active, setActive] = useState(0);
 
-  const checkAuthAndNavigate = (direction: "prev" | "next") => {
-    if (!user) {
-      setShowAuthModal(true);
-      return;
-    }
-
+  const prev = () => {
     if (total <= 1) return;
-    
-    if (direction === "prev") {
-      setActive((p) => (p - 1 + total) % total);
-    } else {
-      setActive((p) => (p + 1) % total);
-    }
+    setActive((p) => (p - 1 + total) % total);
   };
 
-  const prev = () => checkAuthAndNavigate("prev");
-  const next = () => checkAuthAndNavigate("next");
+  const next = () => {
+    if (total <= 1) return;
+    setActive((p) => (p + 1) % total);
+  };
 
   // keyboard
   useEffect(() => {
@@ -57,17 +45,17 @@ export default function CurvedSlider({
     window.addEventListener("keydown", onKeyDown);
     return () => window.removeEventListener("keydown", onKeyDown);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [keyboardNavigation, total, user]);
+  }, [keyboardNavigation, total]);
 
-  // autoplay - only if user is authenticated
+  // autoplay
   useEffect(() => {
-    if (!autoplay || total <= 1 || !user) return;
+    if (!autoplay || total <= 1) return;
     const id = setInterval(() => {
       setActive((p) => (p + 1) % total);
     }, autoplayDelay);
     return () => clearInterval(id);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [autoplay, autoplayDelay, total, user]);
+  }, [autoplay, autoplayDelay, total]);
 
   if (total === 0) {
     return (
@@ -159,11 +147,6 @@ export default function CurvedSlider({
           <Image src="/rightScroll.png" alt="Next" width={100} height={100} />
         </button>
       </div>
-
-      <AuthModal
-        isOpen={showAuthModal}
-        onClose={() => setShowAuthModal(false)}
-      />
     </>
   );
 }

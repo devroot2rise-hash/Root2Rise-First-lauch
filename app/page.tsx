@@ -5,6 +5,7 @@ import { AuthContext } from "@/context/AuthContext";
 import { signOut } from "firebase/auth";
 import { auth } from "@/lib/firebase";
 import Image from "next/image";
+import { User, LogOut } from "lucide-react";
 import "./app.css";
 import VbDownload from "@/components/vbDownload";
 import CurvedSlider from "@/components/CurvedSlider";
@@ -84,19 +85,21 @@ function HeroSection() {
             transform: isTransitioning ? "scale(1.05)" : "scale(1)",
           }}
         >
-          <Image
-            src="/VibeImage.png"
-            alt="Heroillustration"
-            width={1200}
-            height={900}
-            style={{ 
-              maxWidth: "100%", 
-              height: "auto",
-              transition: "all 0.5s ease-in-out",
-              filter: isTransitioning ? "blur(2px)" : "blur(0px)",
-              padding: "30px"
-            }}
-          />
+          <a href="https://www.instagram.com/p/DT-ngwUkzO4" target="_blank" rel="noopener noreferrer" style={{ display: 'inline-block' }}>
+            <Image
+              src="/VibeImage.png"
+              alt="Heroillustration"
+              width={1200}
+              height={900}
+              style={{ 
+                maxWidth: "100%", 
+                height: "auto",
+                transition: "all 0.5s ease-in-out",
+                filter: isTransitioning ? "blur(2px)" : "blur(0px)",
+                padding: "30px"
+              }}
+            />
+          </a>
         </div>
       )}
     </div>
@@ -106,6 +109,7 @@ function HeroSection() {
 export default function Home() {
   const { user } = useContext(AuthContext);
   const [showAuthModal, setShowAuthModal] = useState(false);
+  const [profileOpen, setProfileOpen] = useState(false);
 
   useEffect(() => {
     // Load Tally popup script
@@ -118,6 +122,27 @@ export default function Home() {
       document.body.removeChild(script);
     };
   }, []);
+
+  useEffect(() => {
+    // Close dropdown when clicking outside
+    const handleClickOutside = (event: MouseEvent) => {
+      if (profileOpen) {
+        const target = event.target as HTMLElement;
+        // Check if click is outside the profile dropdown area
+        if (!target.closest('[data-profile-dropdown]')) {
+          setProfileOpen(false);
+        }
+      }
+    };
+
+    if (profileOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [profileOpen]);
 
   const openTallyForm = () => {
     if (window.Tally) {
@@ -152,11 +177,112 @@ export default function Home() {
             <Link href="#about">About Us</Link>
             <Link href="#contact">Contact Us</Link>
           </nav>
-          <nav>
+          <nav style={{ position: 'relative' }}>
             {user ? (
-              <>
-                <button className="btn" onClick={() => signOut(auth)} style={{ marginLeft: 16 }}>Sign Out</button>
-              </>
+              <div style={{ display: 'flex', alignItems: 'center', position: 'relative' }} data-profile-dropdown>
+                <button
+                  onClick={() => setProfileOpen((prev) => !prev)}
+                  style={{
+                    width: 44,
+                    height: 44,
+                    borderRadius: '50%',
+                    border: 'none',
+                    background: 'transparent',
+                    cursor: 'pointer',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    padding: 0,
+                    transition: 'all 0.2s ease'
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.transform = 'scale(1.1)';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.transform = 'scale(1)';
+                  }}
+                  aria-label="Profile menu"
+                  aria-haspopup="true"
+                  aria-expanded={profileOpen}
+                >
+                  <User size={28} color="#000000" strokeWidth={2} />
+                </button>
+
+                {profileOpen && (
+                  <div style={{
+                    position: 'absolute',
+                    right: 0,
+                    top: 55,
+                    background: '#ffffff',
+                    border: '1px solid #e0e0e0',
+                    borderRadius: 16,
+                    boxShadow: '0 10px 40px rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(0, 0, 0, 0.05)',
+                    minWidth: 240,
+                    zIndex: 50,
+                    overflow: 'hidden',
+                    animation: 'slideDown 0.2s ease-out'
+                  }}>
+                    <div style={{
+                      padding: '16px 20px',
+                      borderBottom: '1px solid #f0f0f0',
+                      background: 'linear-gradient(to bottom, #fafafa, #ffffff)'
+                    }}>
+                      <p style={{
+                        margin: 0,
+                        fontSize: 15,
+                        fontWeight: 600,
+                        color: '#1a1a1a',
+                        marginBottom: 4,
+                        letterSpacing: '-0.01em'
+                      }}>
+                        {user.displayName || 'User'}
+                      </p>
+                      <p style={{
+                        margin: 0,
+                        fontSize: 13,
+                        color: '#666666',
+                        overflow: 'hidden',
+                        textOverflow: 'ellipsis',
+                        whiteSpace: 'nowrap'
+                      }}>
+                        {user.email}
+                      </p>
+                    </div>
+                    <button
+                      onClick={() => {
+                        signOut(auth);
+                        setProfileOpen(false);
+                      }}
+                      style={{
+                        width: '100%',
+                        padding: '14px 20px',
+                        textAlign: 'left',
+                        background: 'transparent',
+                        border: 'none',
+                        cursor: 'pointer',
+                        fontSize: 14,
+                        fontWeight: 500,
+                        color: '#dc2626',
+                        transition: 'all 0.2s ease',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: 12
+                      }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.backgroundColor = '#fee2e2';
+                        e.currentTarget.style.paddingLeft = '24px';
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.backgroundColor = 'transparent';
+                        e.currentTarget.style.paddingLeft = '20px';
+                      }}
+                    >
+                      <LogOut size={18} strokeWidth={2} />
+                      <span>Sign Out</span>
+                    </button>
+                  </div>
+                )}
+              </div>
             ) : (
               <>
                 {/* <Link href="/login" style={{ marginRight: 16 }}>Login</Link> */}
@@ -267,6 +393,18 @@ export default function Home() {
       </main>
         <Footer />
         <AuthModal isOpen={showAuthModal} onClose={() => setShowAuthModal(false)} />
+        <style jsx>{`
+          @keyframes slideDown {
+            from {
+              opacity: 0;
+              transform: translateY(-10px);
+            }
+            to {
+              opacity: 1;
+              transform: translateY(0);
+            }
+          }
+        `}</style>
     </div>
   );
 }
